@@ -1,0 +1,41 @@
+*, *::after, *::before{
+ box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 4rem);
+    grid-template-rows: 7rem 2rem 7rem;
+    gap: .5rem;
+    cursor: pointer;
+    justify-content: center;
+    padding-top: 2rem;
+    background-color: bisque;
+}
+
+.deck {
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border-radius: .5rem;
+    color
+}
+
+.text {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#restart {
+    font-size: 5 rem;
+    color: black;
+    background-color: white;
+    
+}
