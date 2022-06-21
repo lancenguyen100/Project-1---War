@@ -7,7 +7,7 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 4rem);
     grid-template-rows: 7rem 2rem 7rem;
-    gap: .5rem;
+    gap: 1 rem;
     cursor: pointer;
     justify-content: center;
     padding-top: 2rem;
@@ -21,9 +21,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 1rem;
     border-radius: .5rem;
-    color
+    user-select: none;
+    color: whitesmoke;
+}
+
+.computer-deck {
+    background-color: blue;
+}
+
+.player-deck {
+    background-color: red;
 }
 
 .text {

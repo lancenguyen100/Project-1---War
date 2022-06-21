@@ -6,20 +6,38 @@
 const SUITS = ["♠", "♣", "♥", "♦"]
 const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10","J", "Q", "K"]
 
-// Deck functions for game usage
-// Maybe not the best way to organize functions?
+
+// Deck constructor for game usage
 // Define the deck of cards
 // Pass the cards into the constructor parameter
 // Pass in freshDeck to show the cards and suits
 // Make sure to call freshDeck using () or the array will not show up!!
 class Deck {
     constructor(cards = freshDeck()) {
+        // Maybe start with an empty array
         this.cards = cards
+    }
+
+    // Create a function that will help with not having to rewrite the index card legnth each time
+    // Getter method to access it in the for loop
+get numberOfCards() {
+    return this.cards.length
+}
+
+// Shuffle function to randomize  cards
+// Math.floor(Math.random()) will return random integer between 0 & 1
+shuffleCards() {
+    for (let i = this.numberOfCards -1; i > 0; i--) {
+        // Random index at before the current card
+        const newIndex = Math.floor(Math.random() * (i + 1))
+        const oldValue = this.cards[newIndex]
+        this.cards[newIndex] = this.cards[i]
+        this.cards[i] = oldValue
+    //     console.log(shuffleCards)
     }
 }
 
-// 
-
+}
 
 // Define deck for individual card
 // Suit and value for each card
@@ -33,7 +51,7 @@ class Card {
 // Function for fresh deck of cards
 // Map will bring back arrays within arrays
 // Use flatMap instead of map to condense the array of cards(MDN source)
-// flatMap used on VALUES brings back the same result
+// FlatMap used on VALUES brings back the same result
 const freshDeck = () => {
     return SUITS.flatMap(suit => {
         return VALUES.map(value => {
@@ -42,25 +60,14 @@ const freshDeck = () => {
     })
 }
 
-// Create a function that will help with not having to rewrite the index card legnth each time
-const numberofCards = () => {
-    return this.cards.length
-}
 
-// Shuffle function to randomize  cards
-// Math.floor(Math.random()) will return random integer between 0 & 1
-const shuffleCards = () => {
-    for (let i = this.numberOfCards -1; i > 0; i--) {
-        const newIndex = Math.floor(Math.random() * (i + 1))
-        const oldValue = this.cards[newIndex]
-        this.cards[newIndex] = this.cards[i]
-        this.cards[i] = oldValue
-        console.log(shuffleCards)
-    }
-}
 
+
+// Check to see if the array of cards show up in the console
 const deck = new Deck()
+deck.shuffleCards()
 console.log(deck.cards)
+
 
 
 
