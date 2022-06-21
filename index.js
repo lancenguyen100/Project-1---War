@@ -88,9 +88,9 @@ console.log(deck.cards)
 
 
 
-
-restart.addEventListener("click", function (event) {
-    location.reload()
-    console.log("reload page!")
-})
+// Restart button to restart game whenever
+// restart.addEventListener("click", function (event) {
+//     location.reload()
+//     console.log("reload page!")
+// })
 
