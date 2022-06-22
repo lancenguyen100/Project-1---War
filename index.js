@@ -7,35 +7,36 @@ const SUITS = ["♠", "♣", "♥", "♦"]
 const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10","J", "Q", "K"]
 
 
-// Deck constructor for game usage
+// Deck class for game usage(similar to Canvas?)
 // Define the deck of cards
 // Pass the cards into the constructor parameter
 // Pass in newDeck to show the cards and suits
 // Make sure to call newDeck using () or the array will not show up!!
 class Deck {
     constructor(cards = newDeck()) {
-        // Maybe start with an empty array
+        // Maybe start with an empty array?
         this.cards = cards
     }
 
-    // Create a function that will help with not having to rewrite the index card legnth each time
+    // Create a getter method that will help with not having to rewrite 
+    // the index card legnth each time
     // Getter method to access it in the for loop
-get numberOfCards() {
+get numbOfCards() {
     return this.cards.length
-}
+    }
 
 // Shuffle function to randomize  cards
 // Math.floor(Math.random()) will return random integer between 0 & 1
-shuffleCards() {
-    for (let i = this.numberOfCards -1; i > 0; i--) {
+shuffleCards = function () {
+    for (let i = this.numbOfCards -1; i > 0; i--) {
         // Random index at before the current card
         const newIndex = Math.floor(Math.random() * (i + 1))
         const oldValue = this.cards[newIndex]
         this.cards[newIndex] = this.cards[i]
         this.cards[i] = oldValue
         
+        }
     }
-}
 
 }
 
@@ -45,18 +46,20 @@ class Card {
     constructor(suit, value) {
         this.suit = suit
         this.value = value
- }
+}
 
-// Define a getter method for reference
-// Use for defining suit value
+// Define a getter method for color-coded suits
+// Use for defining suit (red or black)
+// Either spade || clover && heart || diamond
 // Will reference back when grabing the "div"
 get color() {
+    // This works!! Maybe play around with if statement...
     return this.suit === "♠" || this.suit === "♣" ? "black" : "red"
 }
 
 // Since getHTML is in a class, 
-// We know it is already a function(no need for function key word)
-getHTML() {
+// We know it is already a function(no need for function key word --MDN help!)
+getHTML = function () {
     const cardDiv = document.createElement("div")
     cardDiv.innerText = this.suit
     cardDiv.classList.add("card", this.color)
@@ -68,6 +71,7 @@ getHTML() {
 // Function for fresh deck of cards
 // Map will bring back arrays within arrays
 // Use flatMap instead of map to condense the array of cards(MDN source)
+// Map will return 4 different arrays of card
 // FlatMap used on VALUES brings back the same result
 const newDeck = () => {
     return SUITS.flatMap(suit => {
