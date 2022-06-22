@@ -10,10 +10,10 @@ const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10","J", "Q", "K"]
 // Deck constructor for game usage
 // Define the deck of cards
 // Pass the cards into the constructor parameter
-// Pass in freshDeck to show the cards and suits
-// Make sure to call freshDeck using () or the array will not show up!!
+// Pass in newDeck to show the cards and suits
+// Make sure to call newDeck using () or the array will not show up!!
 class Deck {
-    constructor(cards = freshDeck()) {
+    constructor(cards = newDeck()) {
         // Maybe start with an empty array
         this.cards = cards
     }
@@ -33,40 +33,58 @@ shuffleCards() {
         const oldValue = this.cards[newIndex]
         this.cards[newIndex] = this.cards[i]
         this.cards[i] = oldValue
-    //     console.log(shuffleCards)
+        
     }
 }
 
 }
 
-// Define deck for individual card
+// Define for individual card
 // Suit and value for each card
 class Card {
     constructor(suit, value) {
         this.suit = suit
         this.value = value
-    }
+ }
+
+// Define a getter method for reference
+// Use for defining suit value
+// Will reference back when grabing the "div"
+get color() {
+    return this.suit === "♠" || this.suit === "♣" ? "black" : "red"
+}
+
+// Since getHTML is in a class, 
+// We know it is already a function(no need for function key word)
+getHTML() {
+    const cardDiv = document.createElement("div")
+    cardDiv.innerText = this.suit
+    cardDiv.classList.add("card", this.color)
+    cardDiv.dataset.value = `${this.value} ${this.suit}`
+    return cardDiv
+  }
 }
 
 // Function for fresh deck of cards
 // Map will bring back arrays within arrays
 // Use flatMap instead of map to condense the array of cards(MDN source)
 // FlatMap used on VALUES brings back the same result
-const freshDeck = () => {
+const newDeck = () => {
     return SUITS.flatMap(suit => {
         return VALUES.map(value => {
             return new Card(suit, value)
         })
     })
+
 }
 
 
 
 
 // Check to see if the array of cards show up in the console
-const deck = new Deck()
-deck.shuffleCards()
-console.log(deck.cards)
+const deck1 = new Deck()
+deck1.shuffleCards()
+console.log(deck1.cards)
 
 
 
