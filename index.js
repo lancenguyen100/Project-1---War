@@ -3,7 +3,7 @@
 let playerDeck
 let computerDeck
 
-// QuerySelect each of the classes below to call on once the game begins
+// QuerySelect each of the classes below to call on once the game begins to function
 // playerDeck && computerDeck has already been defined, define another variable below
 const computerCardPosition = document.querySelector(".computer-card-position")
 const playerCardPosition = document.querySelector(".player-card-position")
@@ -14,6 +14,7 @@ const gameText = document.querySelector(".text")
 // Define SUITS/VALUES in the global scope
 // Reference back later for suits and values
 // Will only use one time so use all CAPS for recognition
+// Need to convert face value since they don't have a number
 // 2=2, 3=3, 4=4, 5=5, 6=6, 7=7, 8=8, 
 // 9=9 10=10, J=11, Q=12, K=13, A=14
 const SUITS = ["♠", "♣", "♥", "♦"]
@@ -29,22 +30,23 @@ class Deck {
         // Maybe start with an empty array?
         this.cards = cards
     }
-
     // Create a getter method that will help with not having to rewrite 
     // the index card legnth each time
     // Getter method to access it in the for loop
-get numOfCards() {
-    return this.cards.length
+    get numOfCards() {
+        return this.cards.length
+      }
+        
+
+    pop = function () {
+        return this.cards.shift()
+    }
+    
+    push = function (card) {
+        this.cards.push(card)
     }
 
-pop = function () {
-    return this.cards.shift()
-}
-
-push = function (card) {
-    this.cards.push(card)
-}
-
+    
 // Shuffle function to randomize  cards
 // Math.floor(Math.random()) will return random integer between 0 & 1
 // The same way Tim declared function in a class in CanvasCrawler
@@ -63,6 +65,7 @@ shuffleCards = function () {
 
 // Define for individual card
 // Suit and value for each card
+// Pass in the suit and value
 class Card {
     constructor(suit, value) {
         this.suit = suit
@@ -107,8 +110,26 @@ const newDeck = () => {
 
 // Global variable
 let duringRound = false
+// Need to define a way to compare face-value cards since they do not have number value
+// Let 2 = lowest && A = highest
+const cardValueObject = {
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    J: 11,
+    Q: 12,
+    K: 13,
+    A: 14
+}
+    
 
-// Add an eventListener
+// Add an eventListener for flipping card each round
 document.addEventListener("click", function(event) {
     if (duringRound) {
         cleanUpRound()
@@ -164,6 +185,24 @@ const turnOverCard = () => {
     computerCardPosition.appendChild(computerCard.getHTMLDiv())
 
     newDeckCount()
+
+// Need to make conditional statements to decide winner of each round [if, else if, else]
+// Start with player condition
+// Then computer condition
+// Do draw condition last
+    if (roundWon(playerCard, computerCard)) {
+        gameText.innerText = "All I DO IS WIN!"
+        playerDeck.push(playerCard)
+        playerDeck.push(computerCard)
+    } else if (roundWon(computerCard, playerCard)) {
+        gameText.innerText = "LOSER LOSER DOUBLE LOSER!"
+        computerDeck.push(playerCard)
+        computerDeck.push(computerCard)
+    } else {
+        gameText.innerText = "TIE! TRY AGAIN!"
+        playerDeck.push(playerCard)
+        computerDeck.push(computerCard)
+    }
 }
 
 
@@ -172,7 +211,16 @@ const newDeckCount = () => {
     computerDeckJS.innerText = computerDeck.numOfCards
     playerDeckJS.innerText = playerDeck.numOfCards
 }
-newDeckCount()
+// newDeckCount()
+
+
+// Need a function to decide the winner of round
+// Arrow function coming up as error in console?
+const roundWon = (card1, card2) => {
+    return cardValueObject[card1.value] > cardValueObject[card2.value]
+    // console.log("is round won", roundWon)
+}
+
 
 
 
