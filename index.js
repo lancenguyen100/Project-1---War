@@ -37,6 +37,14 @@ get numOfCards() {
     return this.cards.length
     }
 
+pop = function () {
+    return this.cards.shift()
+}
+
+push = function (card) {
+    this.cards.push(card)
+}
+
 // Shuffle function to randomize  cards
 // Math.floor(Math.random()) will return random integer between 0 & 1
 // The same way Tim declared function in a class in CanvasCrawler
@@ -154,6 +162,8 @@ const turnOverCard = () => {
 
     playerCardPosition.appendChild(playerCard.getHTMLDiv())
     computerCardPosition.appendChild(computerCard.getHTMLDiv())
+
+    newDeckCount()
 }
 
 
