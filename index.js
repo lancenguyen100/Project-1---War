@@ -1,7 +1,7 @@
 // Define variables for playerDeck and computerDeck
 // Use let since playerDeck && computerDeck might change
-let playerDeck
-let computerDeck
+let playerDeck 
+let computerDeck 
 
 // QuerySelect each of the classes below to call on once the game begins to function
 // playerDeck && computerDeck has already been defined, define another variable below
@@ -37,16 +37,6 @@ class Deck {
         return this.cards.length
       }
         
-
-    pop = function () {
-        return this.cards.shift()
-    }
-    
-    push = function (card) {
-        this.cards.push(card)
-    }
-
-    
 // Shuffle function to randomize  cards
 // Math.floor(Math.random()) will return random integer between 0 & 1
 // The same way Tim declared function in a class in CanvasCrawler
@@ -57,8 +47,16 @@ shuffleCards = function () {
         const oldValue = this.cards[newIndex]
         this.cards[newIndex] = this.cards[i]
         this.cards[i] = oldValue
-        
         }
+    }
+
+// Function for pushing the first card in the deck up
+    popCard = function () {
+        return this.cards.shift()
+    }
+// Function for pushing the winner card to the bottom of each deck
+    pushCard = function (card) {
+        this.cards.push(card)
     }
 
 }
@@ -110,6 +108,7 @@ const newDeck = () => {
 
 // Global variable
 let duringRound = false
+let gameOver
 // Need to define a way to compare face-value cards since they do not have number value
 // Let 2 = lowest && A = highest
 const cardValueObject = {
@@ -131,10 +130,14 @@ const cardValueObject = {
 
 // Add an eventListener for flipping card each round
 document.addEventListener("click", function(event) {
+    if (gameOver) {
+        beginGame()
+        return
+    }
     if (duringRound) {
         cleanUpRound()
-    } else {turnOverCard()
-
+    } else {
+        turnOverCard()
     }
 })
 
@@ -158,8 +161,9 @@ const beginGame = () => {
     playerDeck = new Deck(deck1.cards.slice(0, deckMiddlePoint))
     computerDeck = new Deck(deck1.cards.slice(deckMiddlePoint, deck1.numOfCards))
     duringRound = false
-    console.log(playerDeck)
-    console.log(computerDeck)
+    gameOver = false
+    // console.log(playerDeck)
+    // console.log(computerDeck)
 
 }
 // Ensure to invoke beginGame function! I forget to do this a lot!
@@ -178,8 +182,8 @@ const cleanUpRound = () => {
 const turnOverCard = () => {
     duringRound = true
     
-    const playerCard = playerDeck.pop()
-    const computerCard = computerDeck.pop()
+    const playerCard = playerDeck.popCard()
+    const computerCard = computerDeck.popCard()
 
     playerCardPosition.appendChild(playerCard.getHTMLDiv())
     computerCardPosition.appendChild(computerCard.getHTMLDiv())
@@ -190,26 +194,36 @@ const turnOverCard = () => {
 // Start with player condition
 // Then computer condition
 // Do draw condition last
+// Player round condition
     if (roundWon(playerCard, computerCard)) {
         gameText.innerText = "All I DO IS WIN!"
-        playerDeck.push(playerCard)
-        playerDeck.push(computerCard)
+        playerDeck.pushCard(playerCard)
+        playerDeck.pushCard(computerCard)
+// Computer round condition
     } else if (roundWon(computerCard, playerCard)) {
         gameText.innerText = "LOSER LOSER DOUBLE LOSER!"
-        computerDeck.push(playerCard)
-        computerDeck.push(computerCard)
+        computerDeck.pushCard(playerCard)
+        computerDeck.pushCard(computerCard)
+// Tie condition
     } else {
         gameText.innerText = "TIE! TRY AGAIN!"
-        playerDeck.push(playerCard)
-        computerDeck.push(computerCard)
+        playerDeck.pushCard(playerCard)
+        computerDeck.pushCard(computerCard)
+    }
+    if (checkGameWinner(playerDeck)) {
+        gameText.innerText = "YOU HAVE BEEN DEFEATED!!!"
+        gameOver = true
+    } else if (checkGameWinner(computerDeck)) {
+        Text.innerText = "YOU ARE THE CHAMPION!!!"
+        gameOver = true
     }
 }
 
 
 // Function for updating the deck count as each round passes
 const newDeckCount = () => {
-    computerDeckJS.innerText = computerDeck.numOfCards
     playerDeckJS.innerText = playerDeck.numOfCards
+    computerDeckJS.innerText = computerDeck.numOfCards
 }
 // newDeckCount()
 
@@ -221,11 +235,12 @@ const roundWon = (card1, card2) => {
     // console.log("is round won", roundWon)
 }
 
-
-
-
-
-
+// Need a function to checkGameWinner
+// Deck needs to === 0
+// If not game will keep going
+const checkGameWinner = (deck) => {
+    return deck.numOfCards === 0
+}
 
 
 
@@ -237,23 +252,7 @@ const roundWon = (card1, card2) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Restart button to restart game whenever
+// // Restart button to restart game whenever
 // restart.addEventListener("click", function (event) {
 //     location.reload()
 //     console.log("reload page!")

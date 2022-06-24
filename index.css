@@ -39,9 +39,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
-.card {
+/* .card {
     height: 100%;
     width: 100%;
     border: 1px solid black;
@@ -50,7 +51,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 4rem;
-}
+} */
 
 .card {
     height: 100%;
@@ -62,6 +63,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 4rem;
+    user-select: none;
 }
 
 .card.red {
@@ -89,3 +91,15 @@ body {
     right: .5rem;
     transform: rotate(180deg);
 }
+
+/* #restart-button {
+    color: red;
+    background-color: whitesmoke;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    align-items: center;
+} */
