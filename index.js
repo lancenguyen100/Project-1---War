@@ -20,6 +20,22 @@ const gameText = document.querySelector(".text")
 const SUITS = ["♠", "♣", "♥", "♦"]
 const VALUES = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10","J", "Q", "K"]
 
+
+// Function for fresh deck of cards
+// Map will bring back arrays within arrays
+// Use flatMap instead of map to condense the array of cards(MDN source)
+// Map will return 4 different arrays of card
+// FlatMap used on VALUES brings back the same result
+const newDeck = () => {
+    return SUITS.flatMap(suit => {
+        return VALUES.map(value => {
+            return new Card(suit, value)
+        })
+    })
+}
+// newDeck()
+
+
 // Deck class for game usage(similar to Canvas?)
 // Define the deck of cards
 // Pass the cards into the constructor parameter
@@ -51,10 +67,13 @@ shuffleCards = function () {
     }
 
 // Function for pushing the first card in the deck up
+// Shift will push the first card in the array up
+// Every turn will utilize a shift method
     popCard = function () {
         return this.cards.shift()
     }
 // Function for pushing the winner card to the bottom of each deck
+// Push (card) needs to be passed so cards will move to the winner's deck for each round (bottom of deck)
     pushCard = function (card) {
         this.cards.push(card)
     }
@@ -80,6 +99,7 @@ get color() {
 }
 
 // The same way Tim declared function in a class in CanvasCrawler
+// Function to show the cards and their value/suit cards are flipped over
 getHTMLDiv = function () {
     const cardDiv = document.createElement("div")
     cardDiv.innerText = this.suit
@@ -88,21 +108,6 @@ getHTMLDiv = function () {
     return cardDiv
   }
 }
-
-// Function for fresh deck of cards
-// Map will bring back arrays within arrays
-// Use flatMap instead of map to condense the array of cards(MDN source)
-// Map will return 4 different arrays of card
-// FlatMap used on VALUES brings back the same result
-const newDeck = () => {
-    return SUITS.flatMap(suit => {
-        return VALUES.map(value => {
-            return new Card(suit, value)
-        })
-    })
-}
-// newDeck()
-
 
 
 
@@ -128,7 +133,37 @@ const cardValueObject = {
 }
     
 
+
+// Function for updating the deck count as each round passes
+// Remember to refer to global variable already defined
+const newDeckCount = () => {
+    playerDeckJS.innerText = playerDeck.numOfCards
+    computerDeckJS.innerText = computerDeck.numOfCards
+}
+// newDeckCount()
+
+
+// Need a function to decide the winner of round
+// Arrow function coming up as error in console?
+const roundWon = (card1, card2) => {
+    return cardValueObject[card1.value] > cardValueObject[card2.value]
+    // console.log("is round won", roundWon)
+}
+
+// Need a function to checkGameWinner
+// Deck needs to === 0 for game to end
+// If not game will keep going
+const checkGameWinner = (deck) => {
+    return deck.numOfCards === 0
+}
+
+
+
+
+
+
 // Add an eventListener for flipping card each round
+// Starting with the inital game stage
 document.addEventListener("click", function(event) {
     if (gameOver) {
         beginGame()
@@ -190,6 +225,10 @@ const turnOverCard = () => {
 
     newDeckCount()
 
+// Deck reference
+// computerCardPosition.appendChild(deck1.cards[0].getHTMLDiv())
+
+
 // Need to make conditional statements to decide winner of each round [if, else if, else]
 // Start with player condition
 // Then computer condition
@@ -197,59 +236,35 @@ const turnOverCard = () => {
 // Player round condition
     if (roundWon(playerCard, computerCard)) {
         gameText.innerText = "All I DO IS WIN!"
+// Move cards from this round winner to the bottom of playerDeck
         playerDeck.pushCard(playerCard)
         playerDeck.pushCard(computerCard)
 // Computer round condition
     } else if (roundWon(computerCard, playerCard)) {
         gameText.innerText = "LOSER LOSER DOUBLE LOSER!"
+// Move cards from this round winner to the bottom of computerDeck
         computerDeck.pushCard(playerCard)
         computerDeck.pushCard(computerCard)
 // Tie condition
     } else {
         gameText.innerText = "TIE! TRY AGAIN!"
+// Move cards back to each deck, tie state
         playerDeck.pushCard(playerCard)
         computerDeck.pushCard(computerCard)
     }
+// Check to see who won the game 
+// Either playerDeck === 0 card || computerDeck === 0 card
     if (checkGameWinner(playerDeck)) {
         gameText.innerText = "YOU HAVE BEEN DEFEATED!!!"
         gameOver = true
     } else if (checkGameWinner(computerDeck)) {
-        Text.innerText = "YOU ARE THE CHAMPION!!!"
+        gameText.innerText = "YOU ARE THE CHAMPION!!!"
         gameOver = true
     }
 }
 
 
-// Function for updating the deck count as each round passes
-const newDeckCount = () => {
-    playerDeckJS.innerText = playerDeck.numOfCards
-    computerDeckJS.innerText = computerDeck.numOfCards
-}
-// newDeckCount()
-
-
-// Need a function to decide the winner of round
-// Arrow function coming up as error in console?
-const roundWon = (card1, card2) => {
-    return cardValueObject[card1.value] > cardValueObject[card2.value]
-    // console.log("is round won", roundWon)
-}
-
-// Need a function to checkGameWinner
-// Deck needs to === 0
-// If not game will keep going
-const checkGameWinner = (deck) => {
-    return deck.numOfCards === 0
-}
-
-
-
-
-
-// Deck reference
-// computerCardPosition.appendChild(deck1.cards[0].getHTMLDiv())
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // // Restart button to restart game whenever
