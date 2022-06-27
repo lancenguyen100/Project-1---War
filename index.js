@@ -143,6 +143,17 @@ const newDeckCount = () => {
 // newDeckCount()
 
 
+// Create a function for the default state of game
+// How the game should be after each round game
+const cleanUpRound = () => {
+    duringRound = false
+    computerCardPosition.innerText = ""
+    playerCardPosition.innerText = ""
+    gameText.innerText = ""
+    // console.log(cleanUpRound)
+}
+
+
 // Need a function to decide the winner of round
 // Arrow function coming up as error in console?
 const roundWon = (card1, card2) => {
@@ -204,15 +215,7 @@ const beginGame = () => {
 // Ensure to invoke beginGame function! I forget to do this a lot!
 beginGame()
 
-// Create a function for the default state of game
-// How the game should be after each round game
-const cleanUpRound = () => {
-    duringRound = false
-    computerCardPosition.innerText = ""
-    playerCardPosition.innerText = ""
-    gameText.innerText = ""
-    // console.log(cleanUpRound)
-}
+
 
 const turnOverCard = () => {
     duringRound = true
