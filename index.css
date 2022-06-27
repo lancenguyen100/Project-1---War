@@ -25,11 +25,13 @@ html {
 h1 {
     text-decoration: underline;
     color: black;
+    user-select: none;
 }
 
 p {
     color: black;
     font-size: medium;
+    user-select: none;
 }
 
 body {
