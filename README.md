@@ -15,3 +15,8 @@ User Story:
 ![](img/Wireframe%204.jpg)
 ![](img/Wireframe%205.jpg)
 1[](img/Wireframe%206.jpg)
+
+Resources utilized:
+*MDN
+*W3school
+*Stack overflow
